@@ -47,19 +47,6 @@ public class Base {
 		baseParalela = new Base(l2, this, bS.baseParalela);
 		baseSiguiente = bS;
 	}
-	
-	public Base(Base b, char l){
-		letra = l;
-		usado = true;
-		baseParalela = new Base(this, b.baseParalela);
-		baseSiguiente = b;
-	}
-
-	public Base(Base bP, Base bS){
-		usado = false;
-		baseParalela = bP;
-		baseSiguiente = bS;
-	}
 
 	public void agregarPar(char l1, char l2) {
 		if (!usado) {
@@ -95,36 +82,10 @@ public class Base {
 		}
 	}
 
-	public void agregar(char l) {
-		if (!usado) {
-			letra = l;
-			usado = true;
-		} else {
-			Base tmp = this;
-			while (tmp.baseSiguiente != null)
-				tmp = tmp.baseSiguiente;
-			Base bT = new Base(tmp.baseSiguiente, l)
-			tmp.baseSiguiente = bT;
-			tmp.baseParalela.baseSiguiente = tmp.baseSiguiente.baseParalela;
-					}
-					
-					}
-	}
-
-	public int length() {
-		int c = 0;
-		Base tmp = this;
-		while (tmp != null) {
-			c++;
-			tmp = tmp.baseSiguiente;
-		}
-		return c;
-	}
-
-	public String getSecuencia(String s) {
+	public String getSecuencia() {
 		String str = "";
 		Base tmp = this;
-		str += "tira actual " + s + " ";
+		str += "tira actual ";
 		while (tmp != null) {
 			str += tmp.getLetra() + " ";
 			tmp = tmp.baseSiguiente;

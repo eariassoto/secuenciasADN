@@ -9,7 +9,6 @@ public class Secuencia {
 		tira2 = new Base();
 		tira1.asociarParalela(tira2);
 		tira2.asociarParalela(tira1);
-		System.out.println(tira2);
 	}
 
 	/**
@@ -31,23 +30,7 @@ public class Secuencia {
 	 * @param l
 	 */
 	public void agregarParEn(int pos, char l1, char l2){
-		if(tira1.length() >= tira2.length())
 			tira1.agregarParEn(pos, l1, l2);
-		else
-			tira2.agregarParEn(pos, l2, l1);
-	}
-
-	/**
-	 * Agrega una base al final
-	 * 
-	 * @param tira
-	 * @param l
-	 */
-	public void agregarBase(int tira, char l) {
-		if (tira == 1)
-			tira1.agregar(l);
-		else if (tira == 2)
-			tira2.agregar(l);
 	}
 	
 
@@ -70,9 +53,7 @@ public class Secuencia {
 	}
 
 	public String getSecuencia() {
-		// return (tira1.length() >= tira2.length()) ? tira1.getSecuencia()
-		// : tira2.getSecuencia();
-		return tira2.getSecuencia("1");
+		return tira1.getSecuencia();
 	}
 
 }
