@@ -47,6 +47,19 @@ public class Base {
 		baseParalela = new Base(l2, this, bS.baseParalela);
 		baseSiguiente = bS;
 	}
+	
+	public Base(Base b, char l){
+		letra = l;
+		usado = true;
+		baseParalela = new Base(this, b.baseParalela);
+		baseSiguiente = b;
+	}
+
+	public Base(Base bP, Base bS){
+		usado = false;
+		baseParalela = bP;
+		baseSiguiente = bS;
+	}
 
 	public void agregarPar(char l1, char l2) {
 		if (!usado) {
@@ -90,11 +103,12 @@ public class Base {
 			Base tmp = this;
 			while (tmp.baseSiguiente != null)
 				tmp = tmp.baseSiguiente;
-			if (tmp.baseParalela == null)
-				tmp.baseParalela = new Base();
-			Base bT = new Base(l, tmp.baseParalela.baseSiguiente);
+			Base bT = new Base(tmp.baseSiguiente, l)
 			tmp.baseSiguiente = bT;
-		}
+			tmp.baseParalela.baseSiguiente = tmp.baseSiguiente.baseParalela;
+					}
+					
+					}
 	}
 
 	public int length() {
