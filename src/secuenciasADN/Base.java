@@ -41,11 +41,11 @@ public class Base {
 		baseSiguiente = bS;
 	}
 
-	public Base(Base tmp) {
-		letra = tmp.letra;
-		usado = tmp.usado;
-		baseParalela = tmp.baseParalela;
-		baseSiguiente = tmp.baseSiguiente;
+	public Base(char l1, char l2, Base bS) {
+		letra = l1;
+		usado = true;
+		baseParalela = new Base(l2, this, bS.baseParalela);
+		baseSiguiente = bS;
 	}
 
 	public void agregarPar(char l1, char l2) {
@@ -58,8 +58,26 @@ public class Base {
 			Base tmp = this;
 			while (tmp.baseSiguiente != null)
 				tmp = tmp.baseSiguiente;
-			Base b1 = new Base(l1, l2);
-			tmp.baseSiguiente = b1;
+			Base bT = new Base(l1, l2);
+			tmp.baseSiguiente = bT;
+			tmp.baseParalela.baseSiguiente = tmp.baseSiguiente.baseParalela;
+		}
+	}
+
+	public void agregarParEn(int pos, char l1, char l2) {
+		if (pos == 1) {
+			Base bT = new Base(this.letra, this.baseParalela.letra,
+					this.baseSiguiente);
+			this.letra = l1;
+			this.baseParalela.letra = l2;
+			this.baseSiguiente = bT;
+			this.baseParalela.baseSiguiente = this.baseSiguiente.baseParalela;
+		} else {
+			Base tmp = this;
+			for (int i = 1; i < pos - 1; i++)
+				tmp = tmp.baseSiguiente;
+			Base bT = new Base(l1, l2, tmp.baseSiguiente);
+			tmp.baseSiguiente = bT;
 			tmp.baseParalela.baseSiguiente = tmp.baseSiguiente.baseParalela;
 		}
 	}
@@ -72,24 +90,11 @@ public class Base {
 			Base tmp = this;
 			while (tmp.baseSiguiente != null)
 				tmp = tmp.baseSiguiente;
-			Base bT = (tmp.baseParalela != null) ? new Base(l,
-					tmp.baseParalela.baseSiguiente) : new Base(l);
+			if (tmp.baseParalela == null)
+				tmp.baseParalela = new Base();
+			Base bT = new Base(l, tmp.baseParalela.baseSiguiente);
 			tmp.baseSiguiente = bT;
 		}
-	}
-
-	/*
-	 * todo malo, contemplar caso de la cabeza, el otro bucle pararlo antes
-	 */
-	public void agregarParEn(int pos, char l1, char l2) {
-		Base tmp = this;
-		for (int i = 1; i < pos; i++)
-			tmp = tmp.baseSiguiente;
-		Base bT = new Base(tmp);
-		tmp.letra = l1;
-		tmp.baseParalela = new Base(l2, tmp);
-		tmp.baseSiguiente = bT;
-		tmp.baseParalela.baseSiguiente = bT.baseParalela;
 	}
 
 	public int length() {
@@ -102,10 +107,10 @@ public class Base {
 		return c;
 	}
 
-	public String getSecuencia() {
+	public String getSecuencia(String s) {
 		String str = "";
 		Base tmp = this;
-		str += "tira actual ";
+		str += "tira actual " + s + " ";
 		while (tmp != null) {
 			str += tmp.getLetra() + " ";
 			tmp = tmp.baseSiguiente;

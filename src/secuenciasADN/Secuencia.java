@@ -33,6 +33,8 @@ public class Secuencia {
 	public void agregarParEn(int pos, char l1, char l2){
 		if(tira1.length() >= tira2.length())
 			tira1.agregarParEn(pos, l1, l2);
+		else
+			tira2.agregarParEn(pos, l2, l1);
 	}
 
 	/**
@@ -70,7 +72,7 @@ public class Secuencia {
 	public String getSecuencia() {
 		// return (tira1.length() >= tira2.length()) ? tira1.getSecuencia()
 		// : tira2.getSecuencia();
-		return tira1.getSecuencia();
+		return tira2.getSecuencia("1");
 	}
 
 }
