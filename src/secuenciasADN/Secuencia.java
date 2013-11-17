@@ -2,13 +2,10 @@ package secuenciasADN;
 
 public class Secuencia {
 
-	Base tira1, tira2;
+	Base tira;
 
-	public Secuencia() {
-		tira1 = new Base();
-		tira2 = new Base();
-		tira1.asociarParalela(tira2);
-		tira2.asociarParalela(tira1);
+	public Secuencia(Base tira) {
+		this.tira = tira;
 	}
 
 	/**
@@ -21,18 +18,18 @@ public class Secuencia {
 	 *            segunda letra (der)
 	 */
 	public void agregarPar(char l1, char l2) {
-		tira1.agregarPar(l1, l2);
+		tira.agregarPar(l1, l2);
 	}
-	
+
 	/**
 	 * Hacer luego las validaciones
+	 * 
 	 * @param pos
 	 * @param l
 	 */
-	public void agregarParEn(int pos, char l1, char l2){
-			tira1.agregarParEn(pos, l1, l2);
+	public void agregarParEn(int pos, char l1, char l2) {
+		tira.agregarParEn(pos, l1, l2);
 	}
-	
 
 	/**
 	 * Agrega una secuencia desde una hilera con el formato A T A T A T.... etc
@@ -48,12 +45,20 @@ public class Secuencia {
 		String str = s;
 		while (str.length() > 0) {
 			agregarPar(str.charAt(0), str.charAt(2));
-			str = (str.length() == 3)?"":str.substring(4);
+			str = (str.length() == 3) ? "" : str.substring(4);
 		}
 	}
 
-	public String getSecuencia() {
-		return tira1.getSecuencia();
+	public void pruebaSecuencia() {
+		System.out.println(tira.getSecuencia());
+		System.out.println(tira.getInicio(1));
+		System.out.println(tira.getInicio(2));
+		tira.invertir(4, 8);
+		System.out.println(tira.getSecuencia());
+		System.out.println(tira.getInicio(1));
+		System.out.println(tira.getInicio(2));
+		tira.copiar(1, 4);
+		tira.pegar(8);
+		System.out.println(tira.getSecuencia());
 	}
-
 }
