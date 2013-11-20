@@ -59,6 +59,8 @@ public class Secuencia {
 		System.out.println(tira.getInicio(2));
 		tira.copiar(1, 4);
 		tira.pegar(8);
+		tira.cortar(3, 5);
 		System.out.println(tira.getSecuencia());
+		System.out.println(tira.getSubsecuencia(5, 2));
 	}
 }

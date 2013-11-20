@@ -184,7 +184,38 @@ public class Base {
 		}
 	}
 
-	// esto funca
+	/**
+	 * Guarda los punteros de inicio y fin que se desea copiar
+	 * 
+	 * @param inicio
+	 *            indice de posicion
+	 * @param fin
+	 *            indice de posicion
+	 */
+	public void cortar(int inicio, int fin) {
+		copia[0] = this;
+		// obtener el puntero de inicio
+		for (int i = 1; i < inicio; i++)
+			copia[0] = copia[0].baseSiguiente;
+		// obtener puntero final
+		copia[1] = copia[0];
+		for (int j = inicio; j < fin; j++)
+			copia[1] = copia[1].baseSiguiente;
+		// reemplazo de punteros
+		copia[0].baseAnterior.baseSiguiente = copia[1].baseSiguiente;
+		copia[0].baseAnterior.baseParalela.baseSiguiente = copia[1].baseParalela.baseSiguiente;
+		copia[1].baseSiguiente.baseAnterior = copia[0].baseAnterior;
+		copia[1].baseSiguiente.baseParalela.baseAnterior = copia[0].baseParalela.baseAnterior;
+	}
+
+	/**
+	 * Guarda los punteros de inicio y fin que se desea copiar
+	 * 
+	 * @param inicio
+	 *            indice de posicion
+	 * @param fin
+	 *            indice de posicion
+	 */
 	public void copiar(int inicio, int fin) {
 		copia[0] = this;
 		// obtener el puntero de inicio
@@ -196,6 +227,11 @@ public class Base {
 			copia[1] = copia[1].baseSiguiente;
 	}
 
+	/**
+	 * Busca la cola
+	 * 
+	 * @return puntero con el ultimo elemento de la lista
+	 */
 	private Base getCola() {
 		Base tmp = this;
 		while (tmp.baseSiguiente != null)
@@ -320,6 +356,21 @@ public class Base {
 		return str;
 	}
 
+	public String getSubsecuencia(int n, int p) {
+		String str = "";
+		Base tmp = this;
+		// encontrar el inicio
+		for (int i = 1; i < p; i++)
+			tmp = tmp.baseSiguiente;
+		// agarre la cantidad n de bases
+		for (int j = 0; j < n; j++) {
+			str += tmp.getLetra() + " " + tmp.baseParalela.getLetra()
+					+ "\n";
+			tmp = tmp.baseSiguiente;
+		}
+		return str;
+	}
+
 	/**
 	 * Metodo de prueba, imprime las bases
 	 * 
@@ -343,9 +394,8 @@ public class Base {
 		str += "\n";
 		int c = 1;
 		while (tmp != null) {
-			str += c + " " + tmp.getLetra();
-			str += (tmp.baseParalela != null) ? " "
-					+ tmp.baseParalela.getLetra() + "\n" : "\n";
+			str += c + " " + tmp.getLetra() + " " + tmp.baseParalela.getLetra()
+					+ "\n";
 			c++;
 			tmp = tmp.baseSiguiente;
 		}
