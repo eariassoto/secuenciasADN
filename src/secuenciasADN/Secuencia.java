@@ -44,9 +44,13 @@ public class Secuencia {
 	public void inicializaSecuencia(String s) {
 		String str = s;
 		while (str.length() > 0) {
-			agregarPar(str.charAt(0), str.charAt(2));
-			str = (str.length() == 3) ? "" : str.substring(4);
+			agregarPar(str.charAt(0), str.charAt(1));
+			str = (str.length() == 2) ? "" : str.substring(2);
 		}
+	}
+	
+	public String getSecuencia(){
+		return tira.getSecuencia();
 	}
 
 	public void pruebaSecuencia() {

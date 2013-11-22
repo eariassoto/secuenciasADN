@@ -379,19 +379,6 @@ public class Base {
 	public String getSecuencia() {
 		String str = "";
 		Base tmp = this;
-		str += "tira actual ";
-		while (tmp != null) {
-			str += tmp.getLetra() + " ";
-			tmp = tmp.baseSiguiente;
-		}
-		tmp = this.baseParalela;
-		str += "\ntira paralela ";
-		while (tmp != null) {
-			str += tmp.getLetra() + " ";
-			tmp = tmp.baseSiguiente;
-		}
-		tmp = this;
-		str += "\n";
 		int c = 1;
 		while (tmp != null) {
 			str += c + " " + tmp.getLetra() + " " + tmp.baseParalela.getLetra()

@@ -6,7 +6,7 @@ public class Comentario {
 	private Comentario comentarioAnterior, comentarioSiguiente;
 	private int inicio, fin, idCaso;
 	private Calendar fecha;
-	private String tipo, descripcion, nombreAutor, apellAutor, email,
+	private String tipo, descripcion, nombreAutor, email,
 			referencia, baseDatos, linkBD;
 	private boolean usado;
 
@@ -45,7 +45,7 @@ public class Comentario {
 	 *            link a la base
 	 */
 	public Comentario(int i, int f, int id, Calendar fe, String t, String d,
-			String n, String a, String e, String r, String bD, String l) {
+			String n, String e, String r, String bD, String l) {
 		usado = true;
 		inicio = i;
 		fin = f;
@@ -54,7 +54,6 @@ public class Comentario {
 		tipo = t;
 		descripcion = d;
 		nombreAutor = n;
-		apellAutor = a;
 		email = e;
 		referencia = r;
 		baseDatos = bD;
@@ -63,12 +62,25 @@ public class Comentario {
 		comentarioSiguiente = null;
 	}
 
+	/**
+	 * Construye un comentario con referencia al siguiente
+	 * 
+	 * @param com
+	 *            comentario con los datos
+	 * @param cS
+	 *            puntero seiguiente
+	 */
 	public Comentario(Comentario com, Comentario cS) {
 		usado = true;
 		comentarioSiguiente = cS;
 		asignarDatos(this, com);
 	}
 
+	/**
+	 * Construye un clon de un comentario
+	 * 
+	 * @param com
+	 */
 	public Comentario(Comentario com) {
 		usado = true;
 		comentarioSiguiente = null;
@@ -76,7 +88,12 @@ public class Comentario {
 		asignarDatos(this, com);
 	}
 
-	// recordar validar fin en inicio iguales
+	/**
+	 * Agrega el comentario de forma ordenada tomando en cuenta los indices de
+	 * inicio y fin respectivos
+	 * 
+	 * @param comentario
+	 */
 	public void agregar(Comentario comentario) {
 		if (!usado) {
 			// meta en la cabeza
@@ -84,11 +101,12 @@ public class Comentario {
 			usado = true;
 		} else {
 			if (comentario.inicio == this.inicio) {
-				if(comentario.fin <= this.fin){
+				if (comentario.fin <= this.fin) {
 					// meter de primero
-					this.comentarioSiguiente = new Comentario(this, this.comentarioSiguiente);				
+					this.comentarioSiguiente = new Comentario(this,
+							this.comentarioSiguiente);
 					asignarDatos(this, comentario);
-				}else{
+				} else {
 					Comentario tmp = this;
 					while (tmp.comentarioSiguiente != null
 							&& tmp.comentarioSiguiente.inicio == comentario.inicio
@@ -129,6 +147,31 @@ public class Comentario {
 		}
 	}
 
+	public void eliminar(int inicio, int fin) {
+		Comentario tmp = this;
+		boolean hayElementos = true;
+		while (tmp != null && hayElementos) {
+			if ((tmp.inicio >= inicio && tmp.inicio <= fin)) {
+				if (tmp.comentarioAnterior == null) {
+					// cabeza
+					if (tmp.comentarioSiguiente != null) {
+						asignarDatos(tmp, tmp.comentarioSiguiente);
+						tmp.comentarioSiguiente = tmp.comentarioSiguiente.comentarioSiguiente;
+					} else {
+						// queda en blanche
+						tmp.usado = false;
+						hayElementos = false;
+					}
+				} else {
+					tmp.comentarioAnterior.comentarioSiguiente = tmp.comentarioSiguiente;
+					tmp.comentarioSiguiente.comentarioAnterior = tmp.comentarioAnterior;
+					tmp = tmp.comentarioSiguiente;
+				}
+			} else
+				tmp = tmp.comentarioSiguiente;
+		}
+	}
+
 	/**
 	 * copia la informacion de un comentario a otro
 	 * 
@@ -145,7 +188,6 @@ public class Comentario {
 		r.tipo = o.tipo;
 		this.descripcion = o.descripcion;
 		r.nombreAutor = o.nombreAutor;
-		r.apellAutor = o.apellAutor;
 		r.email = o.email;
 		r.referencia = o.referencia;
 		r.baseDatos = o.baseDatos;
