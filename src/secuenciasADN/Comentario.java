@@ -1,11 +1,11 @@
 package secuenciasADN;
 
-import java.util.Calendar;
+import java.util.Date;
 
 public class Comentario {
 	private Comentario comentarioAnterior, comentarioSiguiente;
 	private int inicio, fin, idCaso;
-	private Calendar fecha;
+	private Date fecha;
 	private String tipo, descripcion, nombreAutor, email,
 			referencia, baseDatos, linkBD;
 	private boolean usado;
@@ -44,7 +44,7 @@ public class Comentario {
 	 * @param l
 	 *            link a la base
 	 */
-	public Comentario(int i, int f, int id, Calendar fe, String t, String d,
+	public Comentario(int i, int f, int id, Date fe, String t, String d,
 			String n, String e, String r, String bD, String l) {
 		usado = true;
 		inicio = i;
@@ -194,12 +194,21 @@ public class Comentario {
 		r.linkBD = o.linkBD;
 	}
 
-	public void mostrar() {
+	public String getComentarios() {
+		String s = "";
 		Comentario c = this;
-		while (c != null) {
-			System.out.println(c.inicio + " " + c.fin);
+		while (c != null && c.usado) {
+			s += "Inicio: " + c.inicio + " Fin: " + c.fin
+					+ "\nTipo: " + c.tipo
+					+ "\nDescripcion: " + c.descripcion
+					+ "\nNombre del autor: " + c.nombreAutor
+					+ "\nemail: " + c.email
+					+ "\nReferencia: " + c.referencia
+					+ "\nBase de datos: " + c.baseDatos
+					+ "\nLink Base de datos: " + c.linkBD + "\n\n";
 			c = c.comentarioSiguiente;
 		}
+		return s;
 	}
 
 }

@@ -16,24 +16,28 @@ import javax.swing.JButton;
 public class Interfaz extends JFrame {
 
 	private JPanel contentPane;
-	public JTextArea txtArea;
+	public JTextArea txtSecuencia;
+	public JButton btnAgregar;
 	private JLabel lblAgregarUnComentario;
 	private JLabel lblInicio;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	public JTextField txtInicio;
+	public JTextField txtFin;
+	public JTextField txtId;
+	public JTextField txtTipo;
 	private JLabel lblDescripcion;
 	private JScrollPane scrollPane_1;
-	private JTextArea textArea;
+	public JTextArea txtDes;
 	private JLabel lblNombreUtor;
-	private JTextField textField_4;
+	public JTextField txtNom;
 	private JLabel lblRefrencia;
-	private JTextField textField_5;
+	public JTextField txtRef;
 	private JLabel lblBaseDeDatos;
-	private JTextField textField_6;
+	public JTextField txtBd;
 	private JLabel lblLinkBaseDe;
-	private JTextField textField_7;
+	public JTextField txtLink;
+	public JTextField txtEmail;
+	private JLabel lblComentariosAsociados;
+	public JTextArea txtComentarios;
 
 	/**
 	 * Launch the application.
@@ -71,100 +75,132 @@ public class Interfaz extends JFrame {
 		scrollPane.setBounds(15, 38, 71, 418);
 		contentPane.add(scrollPane);
 		
-		txtArea = new JTextArea();
-		txtArea.setFont(new Font("Monospaced", Font.PLAIN, 20));
-		txtArea.setEditable(false);
-		scrollPane.setViewportView(txtArea);
+		txtSecuencia = new JTextArea();
+		txtSecuencia.setFont(new Font("Monospaced", Font.PLAIN, 20));
+		txtSecuencia.setEditable(false);
+		scrollPane.setViewportView(txtSecuencia);
 		
 		lblAgregarUnComentario = new JLabel("Agrega un comentario:");
-		lblAgregarUnComentario.setBounds(353, 8, 143, 14);
+		lblAgregarUnComentario.setBounds(473, 5, 143, 14);
 		contentPane.add(lblAgregarUnComentario);
 		
 		lblInicio = new JLabel("Inicio:");
-		lblInicio.setBounds(353, 29, 45, 14);
+		lblInicio.setBounds(473, 26, 45, 14);
 		contentPane.add(lblInicio);
 		
-		textField = new JTextField();
-		textField.setBounds(396, 26, 35, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		txtInicio = new JTextField();
+		txtInicio.setBounds(516, 23, 35, 20);
+		contentPane.add(txtInicio);
+		txtInicio.setColumns(10);
 		
 		JLabel lblFin = new JLabel("Fin:");
-		lblFin.setBounds(441, 29, 32, 14);
+		lblFin.setBounds(561, 26, 32, 14);
 		contentPane.add(lblFin);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(474, 26, 35, 20);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
+		txtFin = new JTextField();
+		txtFin.setBounds(594, 23, 35, 20);
+		contentPane.add(txtFin);
+		txtFin.setColumns(10);
 		
 		JLabel lblIdDelCaso = new JLabel("ID del caso:");
-		lblIdDelCaso.setBounds(520, 29, 74, 14);
+		lblIdDelCaso.setBounds(640, 26, 74, 14);
 		contentPane.add(lblIdDelCaso);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(591, 26, 40, 20);
-		contentPane.add(textField_2);
-		textField_2.setColumns(10);
+		txtId = new JTextField();
+		txtId.setText("123");
+		txtId.setBounds(711, 23, 40, 20);
+		contentPane.add(txtId);
+		txtId.setColumns(10);
 		
 		JLabel lblTipo = new JLabel("Tipo:");
-		lblTipo.setBounds(370, 56, 40, 14);
+		lblTipo.setBounds(454, 51, 40, 14);
 		contentPane.add(lblTipo);
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(426, 53, 212, 20);
-		contentPane.add(textField_3);
-		textField_3.setColumns(10);
+		txtTipo = new JTextField();
+		txtTipo.setText("a");
+		txtTipo.setBounds(539, 48, 212, 20);
+		contentPane.add(txtTipo);
+		txtTipo.setColumns(10);
 		
 		lblDescripcion = new JLabel("Descripcion:");
-		lblDescripcion.setBounds(370, 80, 74, 14);
+		lblDescripcion.setBounds(454, 78, 74, 14);
 		contentPane.add(lblDescripcion);
 		
 		scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(456, 84, 194, 75);
+		scrollPane_1.setBounds(557, 84, 194, 75);
 		contentPane.add(scrollPane_1);
 		
-		textArea = new JTextArea();
-		scrollPane_1.setViewportView(textArea);
+		txtDes = new JTextArea();
+		txtDes.setText("b");
+		scrollPane_1.setViewportView(txtDes);
 		
 		lblNombreUtor = new JLabel("Nombre autor:");
-		lblNombreUtor.setBounds(353, 173, 103, 14);
+		lblNombreUtor.setBounds(454, 173, 103, 14);
 		contentPane.add(lblNombreUtor);
 		
-		textField_4 = new JTextField();
-		textField_4.setBounds(473, 170, 177, 20);
-		contentPane.add(textField_4);
-		textField_4.setColumns(10);
+		txtNom = new JTextField();
+		txtNom.setText("c");
+		txtNom.setBounds(574, 170, 177, 20);
+		contentPane.add(txtNom);
+		txtNom.setColumns(10);
 		
 		lblRefrencia = new JLabel("Referencia:");
-		lblRefrencia.setBounds(353, 198, 110, 14);
+		lblRefrencia.setBounds(454, 228, 110, 14);
 		contentPane.add(lblRefrencia);
 		
-		textField_5 = new JTextField();
-		textField_5.setBounds(456, 195, 194, 20);
-		contentPane.add(textField_5);
-		textField_5.setColumns(10);
+		txtRef = new JTextField();
+		txtRef.setText("e");
+		txtRef.setToolTipText("e");
+		txtRef.setBounds(557, 225, 194, 20);
+		contentPane.add(txtRef);
+		txtRef.setColumns(10);
 		
 		lblBaseDeDatos = new JLabel("Base de datos:");
-		lblBaseDeDatos.setBounds(353, 223, 123, 14);
+		lblBaseDeDatos.setBounds(454, 253, 123, 14);
 		contentPane.add(lblBaseDeDatos);
 		
-		textField_6 = new JTextField();
-		textField_6.setBounds(466, 220, 182, 20);
-		contentPane.add(textField_6);
-		textField_6.setColumns(10);
+		txtBd = new JTextField();
+		txtBd.setText("f");
+		txtBd.setBounds(567, 250, 182, 20);
+		contentPane.add(txtBd);
+		txtBd.setColumns(10);
 		
 		lblLinkBaseDe = new JLabel("Link Base de datos:");
-		lblLinkBaseDe.setBounds(353, 248, 143, 14);
+		lblLinkBaseDe.setBounds(454, 278, 143, 14);
 		contentPane.add(lblLinkBaseDe);
 		
-		textField_7 = new JTextField();
-		textField_7.setBounds(501, 245, 145, 20);
-		contentPane.add(textField_7);
-		textField_7.setColumns(10);
+		txtLink = new JTextField();
+		txtLink.setText("g");
+		txtLink.setBounds(602, 275, 145, 20);
+		contentPane.add(txtLink);
+		txtLink.setColumns(10);
 		
-		JButton btnAgregar = new JButton("Agregar");
-		btnAgregar.setBounds(561, 276, 89, 23);
+		btnAgregar = new JButton("Agregar");
+		btnAgregar.setBounds(662, 306, 89, 23);
 		contentPane.add(btnAgregar);
+		
+		JLabel lblEmail = new JLabel("E-mail:");
+		lblEmail.setBounds(454, 203, 78, 14);
+		contentPane.add(lblEmail);
+		
+		txtEmail = new JTextField();
+		txtEmail.setText("d");
+		txtEmail.setToolTipText("d");
+		txtEmail.setBounds(545, 197, 206, 20);
+		contentPane.add(txtEmail);
+		txtEmail.setColumns(10);
+		
+		lblComentariosAsociados = new JLabel("Comentarios Asociados");
+		lblComentariosAsociados.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblComentariosAsociados.setBounds(126, 6, 158, 14);
+		contentPane.add(lblComentariosAsociados);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(136, 38, 286, 418);
+		contentPane.add(scrollPane_2);
+		
+		txtComentarios = new JTextArea();
+		txtComentarios.setEditable(false);
+		scrollPane_2.setViewportView(txtComentarios);
 	}
 }
