@@ -35,8 +35,8 @@ public class Manejador {
 	private void actualizarSecuencia() {
 		interfaz.txtSecuencia.setText(secuencia.getSecuencia());
 	}
-	
-	private void actualizarComentarios(){
+
+	private void actualizarComentarios() {
 		interfaz.txtComentarios.setText(comentario.getComentarios());
 	}
 
@@ -44,6 +44,8 @@ public class Manejador {
 		interfaz.btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					// TODO controlar limites de indices
+					// limpiar despues de errores
 					Comentario nuevoComentario = new Comentario(Integer
 							.parseInt(interfaz.txtInicio.getText()), Integer
 							.parseInt(interfaz.txtFin.getText()), Integer
@@ -56,9 +58,112 @@ public class Manejador {
 					comentario.agregar(nuevoComentario);
 					actualizarComentarios();
 				} catch (Exception exc) {
-					JOptionPane.showMessageDialog(interfaz, "Error, datos incorrectos","Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(interfaz,
+							"Error, datos incorrectos", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
+
+		interfaz.btnAccion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int inicio = Integer.parseInt(interfaz.txtInicio2.getText());
+					int fin = Integer.parseInt(interfaz.txtFin2.getText());
+					if (interfaz.rdbtnCopiar.isSelected()) {
+						if (estaEnLimites(inicio, fin))
+							secuencia.copiar(inicio, fin);
+						else
+							JOptionPane.showMessageDialog(interfaz,
+									"Error, datos incorrectos", "Error",
+									JOptionPane.ERROR_MESSAGE);
+					} else if (interfaz.rdbtnCortar.isSelected()) {
+						if (estaEnLimites(inicio, fin)) {
+							secuencia.cortar(inicio, fin);
+							actualizarSecuencia();
+						}else
+							JOptionPane.showMessageDialog(interfaz,
+									"Error, datos incorrectos", "Error",
+									JOptionPane.ERROR_MESSAGE);
+					} else if (interfaz.rdbtnExtraer.isSelected()) {
+						System.out.println("extraer");
+					} else if (interfaz.rdbtnInvertir.isSelected()) {
+						if (estaEnLimites(inicio, fin)) {
+							secuencia.invertir(inicio, fin);
+							actualizarSecuencia();
+						}else
+							JOptionPane.showMessageDialog(interfaz,
+									"Error, datos incorrectos", "Error",
+									JOptionPane.ERROR_MESSAGE);
+					} else
+						if(interfaz.rdbtnPegar.isSelected()){
+							if(estaEnLimites(inicio)){
+								secuencia.pegar(inicio);
+								actualizarSecuencia();
+							}
+						}
+				} catch (Exception exc) {
+					JOptionPane.showMessageDialog(interfaz,
+							"Error, datos incorrectos", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					exc.printStackTrace();
+				}
+			}
+		});
+		
+		interfaz.rdbtnPegar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				interfaz.lblFin_1.setVisible(false);
+				interfaz.txtFin2.setVisible(false);
+			}
+		});
+		interfaz.rdbtnCopiar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				interfaz.lblFin_1.setVisible(true);
+				interfaz.txtFin2.setVisible(true);
+			}
+		});
+		interfaz.rdbtnCortar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				interfaz.lblFin_1.setVisible(true);
+				interfaz.txtFin2.setVisible(true);
+			}
+		});
+		interfaz.rdbtnExtraer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				interfaz.lblFin_1.setVisible(true);
+				interfaz.txtFin2.setVisible(true);
+			}
+		});
+		interfaz.rdbtnInvertir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				interfaz.lblFin_1.setVisible(true);
+				interfaz.txtFin2.setVisible(true);
+			}
+		});
+	}
+
+	private boolean estaEnLimites(int i, int f) {
+		if (i < 1 || i > f)
+			return false;
+		else {
+			int length = secuencia.length();
+			if (i > length || f > length)
+				return false;
+			else
+				return true;
+		}
+	}
+	
+	private boolean estaEnLimites(int i) {
+		if (i < 1)
+			return false;
+		else {
+			int length = secuencia.length();
+			if (i > length)
+				return false;
+			else
+				return true;
+		}
 	}
 }

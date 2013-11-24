@@ -48,23 +48,29 @@ public class Secuencia {
 			str = (str.length() == 2) ? "" : str.substring(2);
 		}
 	}
-	
-	public String getSecuencia(){
+
+	public String getSecuencia() {
 		return tira.getSecuencia();
 	}
 
-	public void pruebaSecuencia() {
-		System.out.println(tira.getSecuencia());
-		System.out.println(tira.getInicio(1));
-		System.out.println(tira.getInicio(2));
-		tira.invertir(4, 8);
-		System.out.println(tira.getSecuencia());
-		System.out.println(tira.getInicio(1));
-		System.out.println(tira.getInicio(2));
-		tira.copiar(1, 4);
-		tira.pegar(8);
-		tira.cortar(3, 5);
-		System.out.println(tira.getSecuencia());
-		System.out.println(tira.getSubsecuencia(5, 2));
+	public int length() {
+		return tira.length();
+	}
+
+	public void copiar(int inicio, int fin) {
+		tira.copiar(inicio, fin);
+	}
+	
+	public void cortar(int inicio, int fin) {
+		System.out.println("entre perra");
+		tira.cortar(inicio, fin);
+	}
+	
+	public void invertir(int inicio, int fin) {
+		tira.invertir(inicio, fin);
+	}
+	
+	public void pegar(int inicio){
+		tira.pegar(inicio);
 	}
 }
