@@ -3,8 +3,11 @@ package secuenciasADN;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.JTextComponent;
 import javax.swing.JLabel;
+
 import java.awt.Font;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
@@ -17,12 +20,13 @@ public class Interfaz extends JFrame {
 
 	private JPanel contentPane;
 	public JTextArea txtSecuencia;
-	public JButton btnAgregar, btnAccion;
+	public JButton btnComentario, btnAccion, btnInsertar;
 	private JLabel lblAgregarUnComentario;
 	private JLabel lblInicio;
 	public JTextField txtInicio, txtFin, txtId, txtTipo, txtNom, txtRef, txtBd,
-			txtLink, txtEmail, txtFin2, txtInicio2;
-	public JRadioButton rdbtnCopiar, rdbtnCortar, rdbtnInvertir, rdbtnExtraer, rdbtnPegar;
+			txtLink, txtEmail, txtFin2, txtInicio2, txtCadena, txtInicio3;
+	public JRadioButton rdbtnCopiar, rdbtnCortar, rdbtnInvertir, rdbtnExtraer,
+			rdbtnPegar;
 	public JTextArea txtDes, txtComentarios;
 	public JLabel lblFin_1;
 	private JLabel lblDescripcion;
@@ -51,7 +55,7 @@ public class Interfaz extends JFrame {
 		contentPane.add(lblSecuenciaDeAdn);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(15, 38, 71, 418);
+		scrollPane.setBounds(15, 38, 101, 418);
 		contentPane.add(scrollPane);
 
 		txtSecuencia = new JTextArea();
@@ -154,9 +158,9 @@ public class Interfaz extends JFrame {
 		contentPane.add(txtLink);
 		txtLink.setColumns(10);
 
-		btnAgregar = new JButton("Agregar");
-		btnAgregar.setBounds(662, 306, 89, 23);
-		contentPane.add(btnAgregar);
+		btnComentario = new JButton("Agregar");
+		btnComentario.setBounds(662, 306, 89, 23);
+		contentPane.add(btnComentario);
 
 		JLabel lblEmail = new JLabel("E-mail:");
 		lblEmail.setBounds(454, 203, 78, 14);
@@ -183,42 +187,42 @@ public class Interfaz extends JFrame {
 		scrollPane_2.setViewportView(txtComentarios);
 
 		JLabel lblInicio_1 = new JLabel("Inicio:");
-		lblInicio_1.setBounds(482, 354, 46, 14);
+		lblInicio_1.setBounds(482, 382, 46, 14);
 		contentPane.add(lblInicio_1);
 
 		txtInicio2 = new JTextField();
-		txtInicio2.setBounds(529, 351, 35, 20);
+		txtInicio2.setBounds(529, 379, 35, 20);
 		contentPane.add(txtInicio2);
 		txtInicio2.setColumns(10);
 
 		lblFin_1 = new JLabel("Fin:");
-		lblFin_1.setBounds(583, 354, 46, 14);
+		lblFin_1.setBounds(583, 382, 46, 14);
 		contentPane.add(lblFin_1);
 
 		txtFin2 = new JTextField();
-		txtFin2.setBounds(618, 351, 35, 20);
+		txtFin2.setBounds(618, 379, 35, 20);
 		contentPane.add(txtFin2);
 		txtFin2.setColumns(10);
 
 		rdbtnCopiar = new JRadioButton("Copiar");
 		rdbtnCopiar.setSelected(true);
-		rdbtnCopiar.setBounds(486, 375, 78, 23);
+		rdbtnCopiar.setBounds(486, 403, 78, 23);
 		contentPane.add(rdbtnCopiar);
 
 		rdbtnCortar = new JRadioButton("Cortar");
-		rdbtnCortar.setBounds(574, 375, 71, 23);
+		rdbtnCortar.setBounds(574, 403, 71, 23);
 		contentPane.add(rdbtnCortar);
 
 		rdbtnInvertir = new JRadioButton("Invertir");
-		rdbtnInvertir.setBounds(486, 405, 74, 23);
+		rdbtnInvertir.setBounds(486, 433, 74, 23);
 		contentPane.add(rdbtnInvertir);
 
 		rdbtnExtraer = new JRadioButton("Extraer");
-		rdbtnExtraer.setBounds(574, 405, 71, 23);
+		rdbtnExtraer.setBounds(574, 433, 71, 23);
 		contentPane.add(rdbtnExtraer);
 
 		btnAccion = new JButton("Aplicar");
-		btnAccion.setBounds(663, 350, 88, 23);
+		btnAccion.setBounds(663, 378, 88, 23);
 		contentPane.add(btnAccion);
 
 		btnGroup = new ButtonGroup();
@@ -226,10 +230,49 @@ public class Interfaz extends JFrame {
 		btnGroup.add(rdbtnCortar);
 		btnGroup.add(rdbtnInvertir);
 		btnGroup.add(rdbtnExtraer);
-		
+
 		rdbtnPegar = new JRadioButton("Pegar");
 		btnGroup.add(rdbtnPegar);
-		rdbtnPegar.setBounds(640, 390, 109, 23);
+		rdbtnPegar.setBounds(640, 406, 109, 23);
 		contentPane.add(rdbtnPegar);
+
+		JLabel lblInicio_2 = new JLabel("Inicio:");
+		lblInicio_2.setBounds(339, 470, 46, 14);
+		contentPane.add(lblInicio_2);
+
+		txtInicio3 = new JTextField();
+		txtInicio3.setBounds(384, 467, 45, 20);
+		contentPane.add(txtInicio3);
+		txtInicio3.setColumns(10);
+
+		JLabel lblCadena = new JLabel("Cadena:");
+		lblCadena.setBounds(438, 470, 46, 14);
+		contentPane.add(lblCadena);
+
+		txtCadena = new JTextField();
+		txtCadena.setBounds(496, 467, 158, 20);
+		contentPane.add(txtCadena);
+		txtCadena.setColumns(10);
+
+		btnInsertar = new JButton("Insertar");
+		btnInsertar.setBounds(662, 466, 89, 23);
+		contentPane.add(btnInsertar);
 	}
+	
+	public JTextComponent[] getComponentesComentarios(){
+		return new JTextComponent[]{txtInicio, txtFin, txtId, txtTipo, txtDes, txtNom, txtEmail, txtRef, txtBd, txtLink};
+	}
+	
+	public JTextComponent[] getIndicesComentarios(){
+		return new JTextComponent[]{txtInicio, txtFin};
+	}
+	
+	public JTextComponent[] getComponentesAcciones(){
+		return new JTextComponent[]{txtInicio2, txtFin2};
+	}
+	
+	public JTextComponent[] getComponentesInsertar(){
+		return new JTextComponent[]{txtInicio3, txtCadena};
+	}
+
 }

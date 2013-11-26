@@ -264,12 +264,9 @@ public class Base {
 	public void pegar(int pos) {
 		if (hayCopia) {
 			// considere caso cabeza antes
-			// puntero donde hay que pegar
-			Base controlInicio = this;
-			for (int i = 1; i < pos; i++)
-				controlInicio = controlInicio.baseSiguiente;
-			Base controlCopia = copia[0];
+
 			// hago una lista nueva
+			Base controlCopia = copia[0];
 			Base pegado = new Base();
 			Base pP = new Base();
 			pegado.asociarParalela(pP);
@@ -280,17 +277,21 @@ public class Base {
 						controlCopia.baseParalela.letra);
 				controlCopia = controlCopia.baseSiguiente;
 			}
-			if (controlInicio.baseSiguiente != null) {
-				Base colaPegado = pegado.getCola();
-				colaPegado.baseSiguiente = controlInicio.baseSiguiente;
-				colaPegado.baseParalela.baseSiguiente = controlInicio.baseParalela.baseSiguiente;
-				controlInicio.baseSiguiente.baseAnterior = colaPegado;
-				controlInicio.baseSiguiente.baseParalela.baseAnterior = colaPegado.baseParalela;
-			}
-			controlInicio.baseSiguiente = pegado;
-			controlInicio.baseParalela.baseSiguiente = pegado.baseParalela;
-			pegado.baseAnterior = controlInicio;
-			pegado.baseParalela.baseAnterior = controlInicio.baseParalela;
+			Base tmp = this;
+			for (int i = 1; i < pos; i++)
+				tmp = tmp.baseSiguiente;
+			// clon de cabeza
+			pegado.agregarPar(tmp.letra, tmp.baseParalela.letra);
+			// agrego punteros a cola
+			Base cola = pegado.getCola();
+			cola.baseSiguiente = tmp.baseSiguiente;
+			cola.baseParalela.baseSiguiente = tmp.baseParalela.baseSiguiente;
+			// le caigo encima
+			tmp.letra = pegado.letra;
+			tmp.baseParalela.letra = pegado.baseParalela.letra;
+			tmp.baseSiguiente = pegado.baseSiguiente;
+			tmp.baseParalela.baseSiguiente = pegado.baseParalela.baseSiguiente;
+
 		}
 	}
 
@@ -379,14 +380,14 @@ public class Base {
 		return str;
 	}
 
-	public String getSubsecuencia(int n, int p) {
+	public String getSubsecuencia(int inicio, int fin) {
 		String str = "";
 		Base tmp = this;
 		// encontrar el inicio
-		for (int i = 1; i < p; i++)
+		for (int i = 1; i < inicio; i++)
 			tmp = tmp.baseSiguiente;
 		// agarre la cantidad n de bases
-		for (int j = 0; j < n; j++) {
+		for (int j = 0; j < (fin - inicio + 1); j++) {
 			str += tmp.letra + " " + tmp.baseParalela.letra + "\n";
 			tmp = tmp.baseSiguiente;
 		}

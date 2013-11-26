@@ -48,9 +48,24 @@ public class Secuencia {
 			str = (str.length() == 2) ? "" : str.substring(2);
 		}
 	}
+	
+	public void agregarSecuencia(int pos, String s){
+		String str = s;
+		int c = 0;
+		while (str.length() > 0) {
+			agregarParEn(pos+c, str.charAt(0), str.charAt(1));
+			str = (str.length() == 2) ? "" : str.substring(2);
+			c++;
+		}
+	}
 
 	public String getSecuencia() {
 		return tira.getSecuencia();
+	}
+	
+
+	public String getSubsecuencia(int inicio, int fin){
+		return tira.getSubsecuencia(inicio, fin);
 	}
 
 	public int length() {
@@ -62,7 +77,6 @@ public class Secuencia {
 	}
 	
 	public void cortar(int inicio, int fin) {
-		System.out.println("entre perra");
 		tira.cortar(inicio, fin);
 	}
 	
