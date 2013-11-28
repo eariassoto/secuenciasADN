@@ -6,8 +6,8 @@ public class Comentario {
 	private Comentario comentarioAnterior, comentarioSiguiente;
 	private int inicio, fin, idCaso;
 	private Date fecha;
-	private String tipo, descripcion, nombreAutor, email,
-			referencia, baseDatos, linkBD;
+	private String tipo, descripcion, nombreAutor, email, referencia,
+			baseDatos, linkBD;
 	private boolean usado;
 
 	public Comentario() {
@@ -122,7 +122,8 @@ public class Comentario {
 			} else {
 				if (comentario.inicio < this.inicio) {
 					// meter de primero
-					this.comentarioSiguiente = new Comentario(this);
+					this.comentarioSiguiente = new Comentario(this,
+							this.comentarioSiguiente);
 					asignarDatos(this, comentario);
 				} else {
 					Comentario tmp = this;
@@ -151,20 +152,23 @@ public class Comentario {
 		Comentario tmp = this;
 		boolean hayElementos = true;
 		while (tmp != null && hayElementos) {
-			if ((tmp.inicio >= inicio && tmp.inicio <= fin)) {
+			if ((tmp.inicio >= inicio && tmp.inicio <= fin)
+					|| (tmp.fin >= inicio && tmp.fin <= fin)) {
 				if (tmp.comentarioAnterior == null) {
 					// cabeza
 					if (tmp.comentarioSiguiente != null) {
 						asignarDatos(tmp, tmp.comentarioSiguiente);
 						tmp.comentarioSiguiente = tmp.comentarioSiguiente.comentarioSiguiente;
+						tmp = tmp.comentarioSiguiente;
 					} else {
-						// queda en blanche
+						// cabeza vacia
 						tmp.usado = false;
 						hayElementos = false;
 					}
 				} else {
 					tmp.comentarioAnterior.comentarioSiguiente = tmp.comentarioSiguiente;
-					tmp.comentarioSiguiente.comentarioAnterior = tmp.comentarioAnterior;
+					if (tmp.comentarioSiguiente != null)
+						tmp.comentarioSiguiente.comentarioAnterior = tmp.comentarioAnterior;
 					tmp = tmp.comentarioSiguiente;
 				}
 			} else
@@ -198,12 +202,10 @@ public class Comentario {
 		String s = "";
 		Comentario c = this;
 		while (c != null && c.usado) {
-			s += "Inicio: " + c.inicio + " Fin: " + c.fin
-					+ "\nTipo: " + c.tipo
+			s += "Inicio: " + c.inicio + " Fin: " + c.fin + "\nTipo: " + c.tipo
 					+ "\nDescripcion: " + c.descripcion
-					+ "\nNombre del autor: " + c.nombreAutor
-					+ "\nemail: " + c.email
-					+ "\nReferencia: " + c.referencia
+					+ "\nNombre del autor: " + c.nombreAutor + "\nemail: "
+					+ c.email + "\nReferencia: " + c.referencia
 					+ "\nBase de datos: " + c.baseDatos
 					+ "\nLink Base de datos: " + c.linkBD + "\n\n";
 			c = c.comentarioSiguiente;

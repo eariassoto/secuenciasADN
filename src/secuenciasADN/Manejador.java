@@ -1,6 +1,5 @@
 package secuenciasADN;
 
-import java.awt.Component;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
@@ -8,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
 import java.util.regex.Pattern;
-
 import javax.swing.JOptionPane;
 import javax.swing.text.JTextComponent;
 
@@ -66,8 +64,8 @@ public class Manejador {
 								interfaz.txtLink.getText());
 						comentario.agregar(nuevoComentario);
 						actualizarComentarios();
-						limpiarComponentes(interfaz.getComponentesComentarios());
-					} else 
+						// limpiarComponentes(interfaz.getComponentesComentarios());
+					} else
 						throw new Exception();
 				} catch (Exception exc) {
 					JOptionPane.showMessageDialog(interfaz,
@@ -82,39 +80,54 @@ public class Manejador {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					int inicio = Integer.parseInt(interfaz.txtInicio2.getText());
-					int fin = (interfaz.rdbtnPegar.isSelected())?0:Integer.parseInt(interfaz.txtFin2.getText());
+					int fin = (interfaz.rdbtnPegar.isSelected()) ? 0 : Integer
+							.parseInt(interfaz.txtFin2.getText());
 					if (interfaz.rdbtnCopiar.isSelected()) {
+						// copiar
 						if (estaEnLimites(inicio, fin))
 							secuencia.copiar(inicio, fin);
 						else
 							throw new Exception();
 					} else if (interfaz.rdbtnCortar.isSelected()) {
+						// cortar
 						if (estaEnLimites(inicio, fin)) {
 							secuencia.cortar(inicio, fin);
+							comentario.eliminar(inicio, fin);
 							actualizarSecuencia();
+							actualizarComentarios();
 						} else
 							throw new Exception();
 					} else if (interfaz.rdbtnExtraer.isSelected()) {
+						// extraer
 						if (estaEnLimites(inicio, fin)) {
-							StringSelection stringSelection = new StringSelection (secuencia.getSubsecuencia(inicio, fin));
-							Clipboard clpbrd = Toolkit.getDefaultToolkit ().getSystemClipboard ();
-							clpbrd.setContents (stringSelection, null);
-							JOptionPane.showMessageDialog(interfaz,
-									"La secuencia extraida se ha copiado en el portapapeles", "Extraccion de secuencia",
-									JOptionPane.INFORMATION_MESSAGE);
+							StringSelection stringSelection = new StringSelection(
+									secuencia.getSubsecuencia(inicio, fin));
+							Clipboard clpbrd = Toolkit.getDefaultToolkit()
+									.getSystemClipboard();
+							clpbrd.setContents(stringSelection, null);
+							JOptionPane
+									.showMessageDialog(
+											interfaz,
+											"La secuencia extraida se ha copiado en el portapapeles",
+											"Extraccion de secuencia",
+											JOptionPane.INFORMATION_MESSAGE);
 						} else
 							throw new Exception();
 					} else if (interfaz.rdbtnInvertir.isSelected()) {
+						// invertir
 						if (estaEnLimites(inicio, fin)) {
 							secuencia.invertir(inicio, fin);
+							comentario.eliminar(fin, fin);
 							actualizarSecuencia();
+							actualizarComentarios();
 						} else
 							throw new Exception();
 					} else if (interfaz.rdbtnPegar.isSelected()) {
+						// pegar
 						if (estaEnLimites(inicio)) {
 							secuencia.pegar(inicio);
 							actualizarSecuencia();
-						}else
+						} else
 							throw new Exception();
 					}
 				} catch (Exception exc) {
@@ -122,7 +135,7 @@ public class Manejador {
 							"Error, datos incorrectos", "Error",
 							JOptionPane.ERROR_MESSAGE);
 					exc.printStackTrace();
-				}finally{
+				} finally {
 					limpiarComponentes(interfaz.getComponentesAcciones());
 				}
 			}
@@ -131,7 +144,7 @@ public class Manejador {
 		interfaz.btnInsertar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					String cadena = interfaz.txtCadena.getText();
+					String cadena = interfaz.txtCadena.getText().toUpperCase();
 					int pos = Integer.parseInt(interfaz.txtInicio3.getText());
 					if (estaEnLimites(pos) && cadena.length() % 2 == 0
 							&& Pattern.matches("[A,T,G,C,U]+", cadena)) {
@@ -139,25 +152,61 @@ public class Manejador {
 						actualizarSecuencia();
 					}
 				} catch (Exception exc) {
-					exc.printStackTrace();
+					JOptionPane.showMessageDialog(interfaz,
+							"Error, datos incorrectos", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
-		
+
+		interfaz.btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					JOptionPane.showMessageDialog(interfaz, secuencia
+							.buscarSecuencia(interfaz.txtBuscar.getText(),
+									interfaz.comboBox.getSelectedIndex() + 1),
+							"Busqueda", JOptionPane.INFORMATION_MESSAGE);
+				} catch (Exception exc) {
+					JOptionPane.showMessageDialog(interfaz,
+							"Error, datos incorrectos", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+
+		interfaz.btnValidar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int inicio = Integer.parseInt(interfaz.txtValidar.getText());
+					String s = (secuencia.validarSecuencia(inicio-1,
+							interfaz.comboBox.getSelectedIndex() + 1)) ? "La secuencia a partir del indice "
+							+ inicio + " es valida."
+							: "La secuencia a partir del indice " + inicio
+									+ " no es valida.";
+					JOptionPane.showMessageDialog(interfaz, s, "Validar",
+							JOptionPane.INFORMATION_MESSAGE);
+				} catch (Exception exc) {
+					JOptionPane.showMessageDialog(interfaz,
+							"Error, datos incorrectos", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+
 		ActionListener actionListenerMos = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				interfaz.lblFin_1.setVisible(true);
 				interfaz.txtFin2.setVisible(true);
 			}
 		};
-		
+
 		ActionListener actionListenerEsc = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				interfaz.lblFin_1.setVisible(false);
 				interfaz.txtFin2.setVisible(false);
 			}
 		};
-		
+
 		interfaz.rdbtnPegar.addActionListener(actionListenerEsc);
 		interfaz.rdbtnCopiar.addActionListener(actionListenerMos);
 		interfaz.rdbtnCortar.addActionListener(actionListenerMos);

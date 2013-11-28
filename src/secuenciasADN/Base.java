@@ -6,6 +6,7 @@ public class Base {
 	private boolean usado; // controla si la cabea esta usada o no
 	private Base baseParalela, baseSiguiente, baseAnterior; // punteros de lista
 	private Base[] copia; // punteros para inicio y fin de copia
+	//TODO
 	private Comentario comentario; // puntero al comentario
 	private boolean hayCopia;
 
@@ -295,7 +296,6 @@ public class Base {
 		}
 	}
 
-	// TODO considere los comentarios
 	public void invertir(int inicio, int fin) {
 		// encuentra el inicio de la inversion
 		Base punteroInicio = this;
@@ -316,7 +316,7 @@ public class Base {
 			// lo muevo al final actual
 			for (int i = inicio; i < der; i++)
 				baseDerecha = baseDerecha.baseSiguiente;
-			// intercambio todo (ojo al TODO)
+			// intercambio todo
 			aux.letra = baseIzquierda.letra;
 			aux.baseParalela.letra = baseIzquierda.baseParalela.letra;
 			baseIzquierda.letra = baseDerecha.letra;
@@ -409,6 +409,17 @@ public class Base {
 						+ "\n";
 				c++;
 			}
+			tmp = tmp.baseSiguiente;
+		}
+		return str;
+	}
+	
+	public String getSecuencia(int tira) {
+		String str = "";
+		Base tmp = this;
+		while (tmp != null) {
+			if (tmp.usado) 
+				str += (tira == 1)?tmp.letra:tmp.baseParalela.letra;
 			tmp = tmp.baseSiguiente;
 		}
 		return str;

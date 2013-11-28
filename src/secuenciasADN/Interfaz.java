@@ -14,21 +14,25 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JRadioButton;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 @SuppressWarnings("serial")
 public class Interfaz extends JFrame {
 
 	private JPanel contentPane;
 	public JTextArea txtSecuencia;
-	public JButton btnComentario, btnAccion, btnInsertar;
+	public JButton btnComentario, btnAccion, btnInsertar, btnBuscar, btnValidar;
 	private JLabel lblAgregarUnComentario;
 	private JLabel lblInicio;
 	public JTextField txtInicio, txtFin, txtId, txtTipo, txtNom, txtRef, txtBd,
-			txtLink, txtEmail, txtFin2, txtInicio2, txtCadena, txtInicio3;
+			txtLink, txtEmail, txtFin2, txtInicio2, txtCadena, txtInicio3,txtBuscar, txtValidar;
 	public JRadioButton rdbtnCopiar, rdbtnCortar, rdbtnInvertir, rdbtnExtraer,
 			rdbtnPegar;
 	public JTextArea txtDes, txtComentarios;
 	public JLabel lblFin_1;
+	@SuppressWarnings("rawtypes")
+	public JComboBox comboBox;
 	private JLabel lblDescripcion;
 	private JScrollPane scrollPane_1;
 	private JLabel lblNombreUtor;
@@ -37,10 +41,14 @@ public class Interfaz extends JFrame {
 	private JLabel lblLinkBaseDe;
 	private JLabel lblComentariosAsociados;
 	private ButtonGroup btnGroup;
+	private JLabel lblInicio_3;
+	private JLabel label_1;
+	private JComboBox comboBox_1;
 
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Interfaz() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
@@ -100,7 +108,7 @@ public class Interfaz extends JFrame {
 		contentPane.add(lblTipo);
 
 		txtTipo = new JTextField();
-		txtTipo.setText("a");
+		txtTipo.setText("Inicio de codon");
 		txtTipo.setBounds(539, 48, 212, 20);
 		contentPane.add(txtTipo);
 		txtTipo.setColumns(10);
@@ -114,7 +122,7 @@ public class Interfaz extends JFrame {
 		contentPane.add(scrollPane_1);
 
 		txtDes = new JTextArea();
-		txtDes.setText("b");
+		txtDes.setText("Inicia la secuencia que modela\r\nel color de pelo oscuro");
 		scrollPane_1.setViewportView(txtDes);
 
 		lblNombreUtor = new JLabel("Nombre autor:");
@@ -122,7 +130,7 @@ public class Interfaz extends JFrame {
 		contentPane.add(lblNombreUtor);
 
 		txtNom = new JTextField();
-		txtNom.setText("c");
+		txtNom.setText("Emmanuel Arias");
 		txtNom.setBounds(574, 170, 177, 20);
 		contentPane.add(txtNom);
 		txtNom.setColumns(10);
@@ -132,7 +140,7 @@ public class Interfaz extends JFrame {
 		contentPane.add(lblRefrencia);
 
 		txtRef = new JTextField();
-		txtRef.setText("e");
+		txtRef.setText("IMDB");
 		txtRef.setToolTipText("e");
 		txtRef.setBounds(557, 225, 194, 20);
 		contentPane.add(txtRef);
@@ -143,7 +151,7 @@ public class Interfaz extends JFrame {
 		contentPane.add(lblBaseDeDatos);
 
 		txtBd = new JTextField();
-		txtBd.setText("f");
+		txtBd.setText("IMDB");
 		txtBd.setBounds(567, 250, 182, 20);
 		contentPane.add(txtBd);
 		txtBd.setColumns(10);
@@ -153,7 +161,7 @@ public class Interfaz extends JFrame {
 		contentPane.add(lblLinkBaseDe);
 
 		txtLink = new JTextField();
-		txtLink.setText("g");
+		txtLink.setText("http://imbd.com");
 		txtLink.setBounds(602, 275, 145, 20);
 		contentPane.add(txtLink);
 		txtLink.setColumns(10);
@@ -167,7 +175,7 @@ public class Interfaz extends JFrame {
 		contentPane.add(lblEmail);
 
 		txtEmail = new JTextField();
-		txtEmail.setText("d");
+		txtEmail.setText("emmanuel@mail.com");
 		txtEmail.setToolTipText("d");
 		txtEmail.setBounds(545, 197, 206, 20);
 		contentPane.add(txtEmail);
@@ -187,42 +195,42 @@ public class Interfaz extends JFrame {
 		scrollPane_2.setViewportView(txtComentarios);
 
 		JLabel lblInicio_1 = new JLabel("Inicio:");
-		lblInicio_1.setBounds(482, 382, 46, 14);
+		lblInicio_1.setBounds(473, 356, 46, 14);
 		contentPane.add(lblInicio_1);
 
 		txtInicio2 = new JTextField();
-		txtInicio2.setBounds(529, 379, 35, 20);
+		txtInicio2.setBounds(520, 353, 35, 20);
 		contentPane.add(txtInicio2);
 		txtInicio2.setColumns(10);
 
 		lblFin_1 = new JLabel("Fin:");
-		lblFin_1.setBounds(583, 382, 46, 14);
+		lblFin_1.setBounds(574, 356, 46, 14);
 		contentPane.add(lblFin_1);
 
 		txtFin2 = new JTextField();
-		txtFin2.setBounds(618, 379, 35, 20);
+		txtFin2.setBounds(609, 353, 35, 20);
 		contentPane.add(txtFin2);
 		txtFin2.setColumns(10);
 
 		rdbtnCopiar = new JRadioButton("Copiar");
 		rdbtnCopiar.setSelected(true);
-		rdbtnCopiar.setBounds(486, 403, 78, 23);
+		rdbtnCopiar.setBounds(477, 377, 78, 23);
 		contentPane.add(rdbtnCopiar);
 
 		rdbtnCortar = new JRadioButton("Cortar");
-		rdbtnCortar.setBounds(574, 403, 71, 23);
+		rdbtnCortar.setBounds(565, 377, 71, 23);
 		contentPane.add(rdbtnCortar);
 
 		rdbtnInvertir = new JRadioButton("Invertir");
-		rdbtnInvertir.setBounds(486, 433, 74, 23);
+		rdbtnInvertir.setBounds(477, 407, 74, 23);
 		contentPane.add(rdbtnInvertir);
 
 		rdbtnExtraer = new JRadioButton("Extraer");
-		rdbtnExtraer.setBounds(574, 433, 71, 23);
+		rdbtnExtraer.setBounds(565, 407, 71, 23);
 		contentPane.add(rdbtnExtraer);
 
 		btnAccion = new JButton("Aplicar");
-		btnAccion.setBounds(663, 378, 88, 23);
+		btnAccion.setBounds(654, 352, 88, 23);
 		contentPane.add(btnAccion);
 
 		btnGroup = new ButtonGroup();
@@ -233,7 +241,7 @@ public class Interfaz extends JFrame {
 
 		rdbtnPegar = new JRadioButton("Pegar");
 		btnGroup.add(rdbtnPegar);
-		rdbtnPegar.setBounds(640, 406, 109, 23);
+		rdbtnPegar.setBounds(631, 380, 109, 23);
 		contentPane.add(rdbtnPegar);
 
 		JLabel lblInicio_2 = new JLabel("Inicio:");
@@ -257,6 +265,52 @@ public class Interfaz extends JFrame {
 		btnInsertar = new JButton("Insertar");
 		btnInsertar.setBounds(662, 466, 89, 23);
 		contentPane.add(btnInsertar);
+		
+		txtBuscar = new JTextField();
+		txtBuscar.setBounds(394, 498, 154, 20);
+		contentPane.add(txtBuscar);
+		txtBuscar.setColumns(10);
+		
+		JLabel lblBuscarCadena = new JLabel("Cadena:");
+		lblBuscarCadena.setBounds(342, 501, 50, 14);
+		contentPane.add(lblBuscarCadena);
+		
+		JLabel lblTira = new JLabel("Tira:");
+		lblTira.setBounds(561, 501, 46, 14);
+		contentPane.add(lblTira);
+		
+		comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"1", "2"}));
+		comboBox.setSelectedIndex(0);
+		comboBox.setBounds(602, 498, 50, 20);
+		contentPane.add(comboBox);
+		
+		btnBuscar = new JButton("Buscar");
+		btnBuscar.setBounds(662, 497, 89, 23);
+		contentPane.add(btnBuscar);
+		
+		lblInicio_3 = new JLabel("Inicio:");
+		lblInicio_3.setBounds(444, 532, 50, 14);
+		contentPane.add(lblInicio_3);
+		
+		txtValidar = new JTextField();
+		txtValidar.setColumns(10);
+		txtValidar.setBounds(496, 529, 55, 20);
+		contentPane.add(txtValidar);
+		
+		label_1 = new JLabel("Tira:");
+		label_1.setBounds(561, 535, 46, 14);
+		contentPane.add(label_1);
+		
+		comboBox_1 = new JComboBox();
+		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"1", "2"}));
+		comboBox_1.setSelectedIndex(0);
+		comboBox_1.setBounds(602, 532, 50, 20);
+		contentPane.add(comboBox_1);
+		
+		btnValidar = new JButton("Validar");
+		btnValidar.setBounds(662, 531, 89, 23);
+		contentPane.add(btnValidar);
 	}
 	
 	public JTextComponent[] getComponentesComentarios(){
@@ -274,5 +328,4 @@ public class Interfaz extends JFrame {
 	public JTextComponent[] getComponentesInsertar(){
 		return new JTextComponent[]{txtInicio3, txtCadena};
 	}
-
 }
