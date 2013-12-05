@@ -1,3 +1,7 @@
+/**
+ * @author Emmanuel Arias Soto B30640
+ * Clase que maneja el programa
+ */
 package secuenciasADN;
 
 import java.awt.Toolkit;
@@ -11,12 +15,17 @@ import javax.swing.JOptionPane;
 import javax.swing.text.JTextComponent;
 
 public class Manejador {
+	// objetos
 	private Almacenamiento almacenamiento;
 	private Base tira, tiraParalela;
 	private Comentario comentario;
 	private Interfaz interfaz;
 	private Secuencia secuencia;
 
+	/**
+	 * Constructor, instancia los objetos y agrega los
+	 * escuchadores
+	 */
 	public Manejador() {
 		almacenamiento = new Almacenamiento();
 		comentario = new Comentario();
@@ -32,30 +41,37 @@ public class Manejador {
 		secuencia.inicializaSecuencia(almacenamiento.leerSecuencia());
 		actualizarSecuencia();
 		actualizarComentarios();
-
 		interfaz.setVisible(true);
 	}
 
+	/**
+	 * Refresca la secuencia en la interfaz
+	 */
 	private void actualizarSecuencia() {
 		interfaz.txtSecuencia.setText(secuencia.getSecuencia());
 	}
 
+	/**
+	 * Refresca la lista de comentarios en la interfaz
+	 */
 	private void actualizarComentarios() {
 		interfaz.txtComentarios.setText(comentario.getComentarios());
 	}
 
+	/**
+	 * Crea los escuchadores de los elementos que interactuan con el 
+	 * usuario.
+	 */
 	private void setListeners() {
 		interfaz.btnComentario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// agregar comentario
 				try {
-					// TODO controlar limites de indices
-					// limpiar despues de errores
 					int inicio = Integer.parseInt(interfaz.txtInicio.getText());
 					int fin = Integer.parseInt(interfaz.txtFin.getText());
 					if (estaEnLimites(inicio, fin)) {
-						Comentario nuevoComentario = new Comentario(inicio,
-								fin,
-								Integer.parseInt(interfaz.txtId.getText()),
+						Comentario nuevoComentario = new Comentario(secuencia.getBase(inicio), secuencia.getBase(fin),Integer
+								.parseInt(interfaz.txtId.getText()),
 								new Date(), interfaz.txtTipo.getText(),
 								interfaz.txtDes.getText(), interfaz.txtNom
 										.getText(),
@@ -63,8 +79,9 @@ public class Manejador {
 										.getText(), interfaz.txtBd.getText(),
 								interfaz.txtLink.getText());
 						comentario.agregar(nuevoComentario);
+						secuencia.asociarComentario(inicio, nuevoComentario);
+						secuencia.asociarComentario(fin, nuevoComentario);
 						actualizarComentarios();
-						// limpiarComponentes(interfaz.getComponentesComentarios());
 					} else
 						throw new Exception();
 				} catch (Exception exc) {
@@ -78,6 +95,7 @@ public class Manejador {
 
 		interfaz.btnAccion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// acciones varias
 				try {
 					int inicio = Integer.parseInt(interfaz.txtInicio2.getText());
 					int fin = (interfaz.rdbtnPegar.isSelected()) ? 0 : Integer
@@ -142,6 +160,7 @@ public class Manejador {
 		});
 
 		interfaz.btnInsertar.addActionListener(new ActionListener() {
+			// insertar
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String cadena = interfaz.txtCadena.getText().toUpperCase();
@@ -150,6 +169,7 @@ public class Manejador {
 							&& Pattern.matches("[A,T,G,C,U]+", cadena)) {
 						secuencia.agregarSecuencia(pos, cadena);
 						actualizarSecuencia();
+						actualizarComentarios();
 					}
 				} catch (Exception exc) {
 					JOptionPane.showMessageDialog(interfaz,
@@ -161,6 +181,7 @@ public class Manejador {
 
 		interfaz.btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//buscar
 				try {
 					JOptionPane.showMessageDialog(interfaz, secuencia
 							.buscarSecuencia(interfaz.txtBuscar.getText(),
@@ -176,9 +197,10 @@ public class Manejador {
 
 		interfaz.btnValidar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//validar
 				try {
 					int inicio = Integer.parseInt(interfaz.txtValidar.getText());
-					String s = (secuencia.validarSecuencia(inicio-1,
+					String s = (secuencia.validarSecuencia(inicio - 1,
 							interfaz.comboBox.getSelectedIndex() + 1)) ? "La secuencia a partir del indice "
 							+ inicio + " es valida."
 							: "La secuencia a partir del indice " + inicio
@@ -214,6 +236,13 @@ public class Manejador {
 		interfaz.rdbtnInvertir.addActionListener(actionListenerMos);
 	}
 
+	/**
+	 * Verifica que los indices esten dentro de los limites
+	 * de la secuencia
+	 * @param i indice inicial
+	 * @param f indice final
+	 * @return True, si esta en limites
+	 */
 	private boolean estaEnLimites(int i, int f) {
 		if (i < 1 || i > f)
 			return false;
@@ -226,6 +255,12 @@ public class Manejador {
 		}
 	}
 
+	/**
+	 * Hace lo mismo que el anterior pero solo con el
+	 * indice inicial
+	 * @param i indice inicial
+	 * @return True, si esta en limites
+	 */
 	private boolean estaEnLimites(int i) {
 		if (i < 1)
 			return false;
@@ -238,9 +273,12 @@ public class Manejador {
 		}
 	}
 
+	/**
+	 * Limpia componentes de entrada de texto
+	 * @param componentes
+	 */
 	private void limpiarComponentes(JTextComponent[] componentes) {
 		for (JTextComponent c : componentes)
 			c.setText("");
 	}
-
 }

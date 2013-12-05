@@ -1,3 +1,7 @@
+/**
+ * @author Emmanuel Arias Soto B30640
+ * Interfaz grafica para interactuar con el usuario
+ */
 package secuenciasADN;
 
 import javax.swing.JFrame;
@@ -20,6 +24,7 @@ import javax.swing.DefaultComboBoxModel;
 @SuppressWarnings("serial")
 public class Interfaz extends JFrame {
 
+	// much swing things
 	private JPanel contentPane;
 	public JTextArea txtSecuencia;
 	public JButton btnComentario, btnAccion, btnInsertar, btnBuscar, btnValidar;
@@ -43,10 +48,11 @@ public class Interfaz extends JFrame {
 	private ButtonGroup btnGroup;
 	private JLabel lblInicio_3;
 	private JLabel label_1;
+	@SuppressWarnings("rawtypes")
 	private JComboBox comboBox_1;
 
 	/**
-	 * Create the frame.
+	 * Constructor que crea la interfaz.
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Interfaz() {
@@ -312,7 +318,8 @@ public class Interfaz extends JFrame {
 		btnValidar.setBounds(662, 531, 89, 23);
 		contentPane.add(btnValidar);
 	}
-	
+	// estas funciones devuelven un vector de componentes Swing que
+	// heredan de JTextComponent, esto para limpiar sus contenidos 
 	public JTextComponent[] getComponentesComentarios(){
 		return new JTextComponent[]{txtInicio, txtFin, txtId, txtTipo, txtDes, txtNom, txtEmail, txtRef, txtBd, txtLink};
 	}

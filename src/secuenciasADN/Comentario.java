@@ -1,15 +1,25 @@
+/**
+ * @author Emmanuel Arias Soto B30640
+ * La clase Comentario maneja una lista de datos
+ * ingresados por el usuario correspondiente a los
+ * comentarios de la secuencia de ADN
+ */
 package secuenciasADN;
 
 import java.util.Date;
 
 public class Comentario {
 	private Comentario comentarioAnterior, comentarioSiguiente;
-	private int inicio, fin, idCaso;
+	private Base bI, bF;
+	private int idCaso;
 	private Date fecha;
 	private String tipo, descripcion, nombreAutor, email, referencia,
 			baseDatos, linkBD;
 	private boolean usado;
 
+	/**
+	 * Constructor por defecto
+	 */
 	public Comentario() {
 		usado = false;
 		comentarioAnterior = null;
@@ -17,7 +27,7 @@ public class Comentario {
 	}
 
 	/**
-	 * Constructor por default
+	 * Constructor con datos
 	 * 
 	 * @param i
 	 *            indice puntero inicio
@@ -44,11 +54,11 @@ public class Comentario {
 	 * @param l
 	 *            link a la base
 	 */
-	public Comentario(int i, int f, int id, Date fe, String t, String d,
+	public Comentario(Base i, Base f, int id, Date fe, String t, String d,
 			String n, String e, String r, String bD, String l) {
 		usado = true;
-		inicio = i;
-		fin = f;
+		bI = i;
+		bF = f;
 		idCaso = id;
 		fecha = fe;
 		tipo = t;
@@ -100,8 +110,8 @@ public class Comentario {
 			asignarDatos(this, comentario);
 			usado = true;
 		} else {
-			if (comentario.inicio == this.inicio) {
-				if (comentario.fin <= this.fin) {
+			if (comentario.bI.getIndice() == this.bI.getIndice()) {
+				if (comentario.bF.getIndice() <= this.bF.getIndice()) {
 					// meter de primero
 					this.comentarioSiguiente = new Comentario(this,
 							this.comentarioSiguiente);
@@ -109,8 +119,10 @@ public class Comentario {
 				} else {
 					Comentario tmp = this;
 					while (tmp.comentarioSiguiente != null
-							&& tmp.comentarioSiguiente.inicio == comentario.inicio
-							&& tmp.comentarioSiguiente.fin <= comentario.fin)
+							&& tmp.comentarioSiguiente.bI.getIndice() == comentario.bI
+									.getIndice()
+							&& tmp.comentarioSiguiente.bF.getIndice() <= comentario.bF
+									.getIndice())
 						tmp = tmp.comentarioSiguiente;
 					if (tmp.comentarioSiguiente != null) {
 						tmp.comentarioSiguiente.comentarioAnterior = comentario;
@@ -120,7 +132,7 @@ public class Comentario {
 					comentario.comentarioAnterior = tmp;
 				}
 			} else {
-				if (comentario.inicio < this.inicio) {
+				if (comentario.bI.getIndice() < this.bI.getIndice()) {
 					// meter de primero
 					this.comentarioSiguiente = new Comentario(this,
 							this.comentarioSiguiente);
@@ -128,13 +140,16 @@ public class Comentario {
 				} else {
 					Comentario tmp = this;
 					while (tmp.comentarioSiguiente != null
-							&& comentario.inicio > tmp.comentarioSiguiente.inicio)
+							&& comentario.bI.getIndice() > tmp.comentarioSiguiente.bI
+									.getIndice())
 						tmp = tmp.comentarioSiguiente;
 					// encontre o uno igual o uno mayor
-					if (comentario.inicio == tmp.inicio) {
+					if (comentario.bI.getIndice() == tmp.bI.getIndice()) {
 						while (tmp.comentarioSiguiente != null
-								&& tmp.comentarioSiguiente.inicio == comentario.inicio
-								&& tmp.comentarioSiguiente.fin <= comentario.fin)
+								&& tmp.comentarioSiguiente.bI.getIndice() == comentario.bI
+										.getIndice()
+								&& tmp.comentarioSiguiente.bF.getIndice() <= comentario.bF
+										.getIndice())
 							tmp = tmp.comentarioSiguiente;
 					}
 					if (tmp.comentarioSiguiente != null) {
@@ -148,12 +163,17 @@ public class Comentario {
 		}
 	}
 
+	/**
+	 * Elimina una parte de la secuencia de ADN
+	 * @param inicio indice
+	 * @param fin indice
+	 */
 	public void eliminar(int inicio, int fin) {
 		Comentario tmp = this;
 		boolean hayElementos = true;
 		while (tmp != null && hayElementos) {
-			if ((tmp.inicio >= inicio && tmp.inicio <= fin)
-					|| (tmp.fin >= inicio && tmp.fin <= fin)) {
+			if ((tmp.bI.getIndice() >= inicio && tmp.bI.getIndice() <= fin)
+					|| (tmp.bF.getIndice() >= inicio && tmp.bF.getIndice() <= fin)) {
 				if (tmp.comentarioAnterior == null) {
 					// cabeza
 					if (tmp.comentarioSiguiente != null) {
@@ -185,8 +205,8 @@ public class Comentario {
 	 *            comentario origen
 	 */
 	public void asignarDatos(Comentario r, Comentario o) {
-		r.inicio = o.inicio;
-		r.fin = o.fin;
+		r.bI = o.bI;
+		r.bF = o.bF;
 		r.idCaso = o.idCaso;
 		r.fecha = o.fecha;
 		r.tipo = o.tipo;
@@ -198,12 +218,16 @@ public class Comentario {
 		r.linkBD = o.linkBD;
 	}
 
+	/**
+	 * Devuelve toda la lista con comentarios
+	 * @return hilera con comentarios
+	 */
 	public String getComentarios() {
 		String s = "";
 		Comentario c = this;
 		while (c != null && c.usado) {
-			s += "Inicio: " + c.inicio + " Fin: " + c.fin + "\nTipo: " + c.tipo
-					+ "\nDescripcion: " + c.descripcion
+			s += "Inicio: " + c.bI.getIndice() + " Fin: " + c.bF.getIndice()
+					+ "\nTipo: " + c.tipo + "\nDescripcion: " + c.descripcion
 					+ "\nNombre del autor: " + c.nombreAutor + "\nemail: "
 					+ c.email + "\nReferencia: " + c.referencia
 					+ "\nBase de datos: " + c.baseDatos
@@ -211,6 +235,19 @@ public class Comentario {
 			c = c.comentarioSiguiente;
 		}
 		return s;
+	}
+
+	/**
+	 * Referencia las bases de inicio y fin de comentario
+	 * usada cuando hay una modificacion de orden en las tiras
+	 * @param ant referencia antigua
+	 * @param nueva base nueva
+	 */
+	public void asociarBase(Base ant, Base nueva) {
+		if (bI == ant)
+			bI = nueva;
+		else if (bF == ant)
+			bF = nueva;
 	}
 
 }

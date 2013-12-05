@@ -1,13 +1,18 @@
+/**
+ * @author Emmanuel Arias Soto B30640
+ * La clase Base es el nodo base de la tira de ADN
+ * Contiene punteros a su siguiente y anterior además de 
+ * la tira paralela y su respectivo puntero al comentario
+ */
 package secuenciasADN;
 
 public class Base {
-
+	private Comentario comentario;
 	private char letra; // representa la sigla de la base
+	private int indice;
 	private boolean usado; // controla si la cabea esta usada o no
 	private Base baseParalela, baseSiguiente, baseAnterior; // punteros de lista
 	private Base[] copia; // punteros para inicio y fin de copia
-	//TODO
-	private Comentario comentario; // puntero al comentario
 	private boolean hayCopia;
 
 	/**
@@ -128,6 +133,7 @@ public class Base {
 	public Base(char l, Base b) {
 		letra = l;
 		usado = true;
+		comentario = b.comentario;
 		baseParalela = new Base(b.baseParalela.letra, this,
 				b.baseSiguiente.baseParalela);
 		baseSiguiente = b.baseSiguiente;
@@ -155,6 +161,7 @@ public class Base {
 			tmp.baseSiguiente = bT;
 			tmp.baseParalela.baseSiguiente = tmp.baseSiguiente.baseParalela;
 		}
+		ponerIndices();
 	}
 
 	/**
@@ -170,6 +177,9 @@ public class Base {
 	public void agregarParEn(int pos, char l1, char l2) {
 		if (pos == 1) {
 			Base bT = new Base(this.letra, this);
+			// cc
+			if (this.comentario != null)
+				comentario.asociarBase(this, bT);
 			this.letra = l1;
 			this.baseParalela.letra = l2;
 			this.baseSiguiente = bT;
@@ -179,11 +189,27 @@ public class Base {
 			for (int i = 1; i < pos - 1; i++)
 				tmp = tmp.baseSiguiente;
 			Base bT = new Base(tmp, l1, l2, tmp.baseSiguiente);
+			// cc
+			if (tmp.comentario != null)
+				comentario.asociarBase(tmp, bT);
 			tmp.baseSiguiente.baseAnterior = bT;
 			tmp.baseSiguiente.baseParalela.baseAnterior = bT.baseParalela;
 			tmp.baseSiguiente = bT;
 			tmp.baseParalela.baseSiguiente = tmp.baseSiguiente.baseParalela;
+		}
+		ponerIndices();
+	}
 
+	/**
+	 * Solucion rapida de ultimo momento, ineficiente
+	 */
+	public void ponerIndices() {
+		int c = 1;
+		Base tmp = this;
+		while (tmp != null && tmp.usado) {
+			tmp.indice = c;
+			c++;
+			tmp = tmp.baseSiguiente;
 		}
 	}
 
@@ -227,6 +253,7 @@ public class Base {
 			copia[1].baseSiguiente.baseAnterior = copia[0].baseAnterior;
 			copia[1].baseSiguiente.baseParalela.baseAnterior = copia[0].baseParalela.baseAnterior;
 		}
+		ponerIndices();
 	}
 
 	/**
@@ -261,12 +288,12 @@ public class Base {
 		return tmp;
 	}
 
-	// TODO considerar despues los comentarios
+	/**
+	 * pega una tira indicada por los punteros copia[]
+	 * @param pos posicion inicial para pegar
+	 */
 	public void pegar(int pos) {
 		if (hayCopia) {
-			// considere caso cabeza antes
-
-			// hago una lista nueva
 			Base controlCopia = copia[0];
 			Base pegado = new Base();
 			Base pP = new Base();
@@ -292,10 +319,15 @@ public class Base {
 			tmp.baseParalela.letra = pegado.baseParalela.letra;
 			tmp.baseSiguiente = pegado.baseSiguiente;
 			tmp.baseParalela.baseSiguiente = pegado.baseParalela.baseSiguiente;
-
 		}
+		ponerIndices();
 	}
 
+	/**
+	 * Invierte una parte de la secuencia de ADN
+	 * @param inicio indice inicial
+	 * @param fin indice final
+	 */
 	public void invertir(int inicio, int fin) {
 		// encuentra el inicio de la inversion
 		Base punteroInicio = this;
@@ -380,6 +412,12 @@ public class Base {
 		return str;
 	}
 
+	/**
+	 * Devuelve una subsecuencia de ADN para darsela al usuario
+	 * @param inicio indice
+	 * @param fin indice
+	 * @return subsecuencia
+	 */
 	public String getSubsecuencia(int inicio, int fin) {
 		String str = "";
 		Base tmp = this;
@@ -395,44 +433,62 @@ public class Base {
 	}
 
 	/**
-	 * Metodo de prueba, imprime las bases
-	 * 
+	 * Devuelve la tira de ADN con su respectiva paralela
 	 * @return hilera con informacion
 	 */
 	public String getSecuencia() {
 		String str = "";
 		Base tmp = this;
-		int c = 1;
 		while (tmp != null) {
-			if (tmp.usado) {
-				str += c + " " + tmp.letra + " " + tmp.baseParalela.letra
-						+ "\n";
-				c++;
-			}
+			if (tmp.usado)
+				str += tmp.indice + " " + tmp.letra + " "
+						+ tmp.baseParalela.letra + "\n";
 			tmp = tmp.baseSiguiente;
 		}
 		return str;
 	}
-	
+
+	/**
+	 * Devuelve solo una tira indicada
+	 * @param tira 1 o 2
+	 * @return hilera con lista de bases
+	 */
 	public String getSecuencia(int tira) {
 		String str = "";
 		Base tmp = this;
 		while (tmp != null) {
-			if (tmp.usado) 
-				str += (tira == 1)?tmp.letra:tmp.baseParalela.letra;
+			if (tmp.usado)
+				str += (tira == 1) ? tmp.letra : tmp.baseParalela.letra;
 			tmp = tmp.baseSiguiente;
 		}
 		return str;
 	}
 
+	/**
+	 * Devuelve un nodo indicado
+	 * @param pos indice de la base
+	 * @return base indicada
+	 */
+	public Base getBase(int pos) {
+		Base tmp = this;
+		for (int i = 1; i < pos; i++)
+			tmp = tmp.baseSiguiente;
+		return tmp;
+	}
+
+	/**
+	 * Usado para asociar las tiras paralelas
+	 * luego de la creación de ambas
+	 * @param b nodo cabeza de la tira
+	 */
 	public void asociarParalela(Base b) {
 		baseParalela = b;
 	}
 
-	public void asociarComentario(Comentario c) {
-		comentario = c;
-	}
-
+	/**
+	 * Calcula la longitud de la secuencia
+	 * @return entero con la longitud
+	 */
 	public int length() {
 		int c = 0;
 		Base tmp = this;
@@ -442,5 +498,25 @@ public class Base {
 			tmp = tmp.baseSiguiente;
 		}
 		return c;
+	}
+
+	/**
+	 * Devuelve el indice de dicho nodo
+	 * @return indice
+	 */
+	public int getIndice() {
+		return indice;
+	}
+
+	/**
+	 * Asocia el respectivo comentario con la base
+	 * @param pos indice de la base
+	 * @param c objeto comentario
+	 */
+	public void asociarComentario(int pos, Comentario c) {
+		Base tmp = this;
+		for (int i = 1; i < pos; i++)
+			tmp = tmp.baseSiguiente;
+		tmp.comentario = comentario;
 	}
 }
